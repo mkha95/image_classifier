@@ -1,12 +1,13 @@
+
 import sys
 import time
 import torch
 import torchvision.transforms as transforms
 from torchvision.models import resnet50
 from PIL import Image
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel, QFileDialog, QInputDialog, QHBoxLayout
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import Qt
+from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel, QFileDialog, QInputDialog, QHBoxLayout
+from PyQt6.QtGui import QPixmap
+from PyQt6.QtCore import Qt
 from collections import Counter
 
 class GridImageClassifierGUI(QWidget):
@@ -35,15 +36,15 @@ class GridImageClassifierGUI(QWidget):
         layout.addWidget(self.upload_btn)
 
         self.image_label = QLabel()
-        self.image_label.setAlignment(Qt.AlignCenter)
+        self.image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.image_label)
 
         self.result_label = QLabel('Upload a grid image to see the classification results')
-        self.result_label.setAlignment(Qt.AlignCenter)
+        self.result_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.result_label)
 
         self.time_label = QLabel()
-        self.time_label.setAlignment(Qt.AlignCenter)
+        self.time_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.time_label)
 
         button_layout = QHBoxLayout()
@@ -60,11 +61,11 @@ class GridImageClassifierGUI(QWidget):
         layout.addLayout(button_layout)
 
         self.cell_image_label = QLabel()
-        self.cell_image_label.setAlignment(Qt.AlignCenter)
+        self.cell_image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.cell_image_label)
 
         self.cell_label = QLabel()
-        self.cell_label.setAlignment(Qt.AlignCenter)
+        self.cell_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.cell_label)
 
         self.setLayout(layout)
@@ -78,7 +79,7 @@ class GridImageClassifierGUI(QWidget):
                 # Open and display the image
                 image = Image.open(file_name).convert('RGB')
                 pixmap = QPixmap(file_name)
-                self.image_label.setPixmap(pixmap.scaled(400, 400, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+                self.image_label.setPixmap(pixmap.scaled(400, 400, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
 
                 # Get grid dimensions from user
                 grid_size, ok = QInputDialog.getText(self, 'Input Grid Size', 'Enter grid size (e.g., 3x3):')
@@ -134,7 +135,7 @@ class GridImageClassifierGUI(QWidget):
     def show_current_cell(self):
         cell, label = self.grid_results[self.current_cell]
         pixmap = QPixmap.fromImage(cell.toqimage())
-        self.cell_image_label.setPixmap(pixmap.scaled(200, 200, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        self.cell_image_label.setPixmap(pixmap.scaled(200, 200, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
         self.cell_label.setText(f"Cell {self.current_cell + 1}: {label}")
 
     def show_previous(self):
@@ -157,4 +158,4 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = GridImageClassifierGUI()
     ex.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

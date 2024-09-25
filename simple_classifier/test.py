@@ -3,9 +3,9 @@ import torch
 import torchvision.transforms as transforms
 from torchvision.models import resnet50
 from PIL import Image
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel, QFileDialog
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import Qt
+from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel, QFileDialog
+from PyQt6.QtGui import QPixmap
+from PyQt6.QtCore import Qt
 
 class ImageClassifierGUI(QWidget):
     def __init__(self):
@@ -32,11 +32,11 @@ class ImageClassifierGUI(QWidget):
         layout.addWidget(self.upload_btn)
 
         self.image_label = QLabel()
-        self.image_label.setAlignment(Qt.AlignCenter)
+        self.image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.image_label)
 
         self.result_label = QLabel('Upload an image to see the classification result')
-        self.result_label.setAlignment(Qt.AlignCenter)
+        self.result_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.result_label)
 
         self.setLayout(layout)
@@ -49,7 +49,7 @@ class ImageClassifierGUI(QWidget):
             try:
                 image = Image.open(file_name).convert('RGB')
                 pixmap = QPixmap(file_name)
-                self.image_label.setPixmap(pixmap.scaled(224, 224, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+                self.image_label.setPixmap(pixmap.scaled(224, 224, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
 
                 input_tensor = self.transform(image).unsqueeze(0)
 
@@ -67,4 +67,4 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = ImageClassifierGUI()
     ex.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
